@@ -1,7 +1,15 @@
 import '../styles/globals.css'
-
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import {ThemeProvider} from 'next-themes'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { SessionProvider } from "next-auth/react"
+import 'animate.css';
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  return (
+      <SessionProvider session={session}>
+          <ThemeProvider defaultTheme="system">
+            <Component {...pageProps} />
+          </ThemeProvider>
+      </SessionProvider>
+  )
 }
-
 export default MyApp
