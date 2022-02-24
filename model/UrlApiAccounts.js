@@ -1,32 +1,23 @@
 const mongoose = require('mongoose')
 
-const AccountSchema = new mongoose.Schema(
+const UrlApiAccountSchema = new mongoose.Schema(
     {
         id: {
             type: String,
             required: 'Please supply a id',
             trim: true
         },
-        password: {
+        uuid: {
             type: String,
-            required: 'Please supply a password',
+            required: 'Please supply a uuid',
             trim: true
         },
-        email: {
+        token: {
             type: String,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            required: 'Please Supply an email address'
-        },
-        role: {
-            type: String,
-            required: 'Please supply a role',
-            trim: true,
-            default: 'User'
+            required: 'Please supply a token',
+            trim: true
         }
-    },
-    { timestamps: { createdAt: 'created_at'}}
+    }
 )
 
 // AccountSchema.methods.setPassword = async function (password) {
@@ -41,4 +32,4 @@ const AccountSchema = new mongoose.Schema(
 //     return this.findOne({ username });
 // };
 
-module.exports = mongoose.models.useraccounts || mongoose.model('useraccounts', AccountSchema);
+module.exports = mongoose.models.UrlApiAccounts || mongoose.model('UrlApiAccounts', UrlApiAccountSchema);

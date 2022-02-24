@@ -34,7 +34,12 @@ export default function Login() {
             callbackUrl:process.env.CALLBACKURL
         });
         console.log(response);
-        await router.push(response.url)
+        if(response.status===200){
+            await router.push(response.url)
+        }else{
+            alert("아이디 또는 비밀번호가 잘못되었습니다.")
+        }
+
     }
     return (
         <div

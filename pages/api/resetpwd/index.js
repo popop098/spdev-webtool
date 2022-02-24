@@ -1,0 +1,39 @@
+// https://www.youtube.com/watch?v=ahAilJEe-_A&list=PL_kAgwZgMfWx0ToY-XKCcAm9JH5UlTA-W&index=2&ab_channel=JasonRivera
+import dbConnect from "../../../utils/dbConnect";
+import useraccounts from '../../../model/useraccounts'
+import pwdresettokens from '../../../model/pwdresettokens'
+import bcrypt from "bcrypt";
+import fetch from "isomorphic-unfetch";
+import {useRouter} from "next/router";
+
+dbConnect()
+export default async (req,res) => {
+    const { method } = req;
+    switch (method){
+        case 'POST':
+            try {
+                const user_id = await pwdresettokens.findOne({
+                    uuid:req.body.uuid
+                })
+                console.log(user_id)
+                const update = await useraccounts.updateOne({email:user_id.email},{$set: {password: String(bcrypt.hashSync(req.body.pwd, 10))}})
+                if(!update){
+                    return res.status(404).json({
+                        message: 'Invalid token'
+                    })
+                }
+                await pwdresettokens.deleteOne({
+                    uuid:req.body.uuid
+                })
+                return res.status(200).json({
+                    message: 'Password updated successfully'})
+            }catch (error){
+                console.log(error.message)
+                res.status(400).json({success:false})
+            }
+            break;
+        default:
+            res.status(400).json({success:false});
+            break;
+    }
+}
