@@ -1,14 +1,16 @@
 // https://www.youtube.com/watch?v=ahAilJEe-_A&list=PL_kAgwZgMfWx0ToY-XKCcAm9JH5UlTA-W&index=2&ab_channel=JasonRivera
 import dbConnect from "../../utils/dbConnect";
-import Useraccounts from '../../model/useraccounts'
-import UrlApiAccounts from '../../model/urlapiaccounts'
+import Useraccounts from '../../model/UserAccounts'
+import UrlApiAccounts from '../../model/UrlApiAccounts'
+import DiscordWebhooks from '../../model/DiscordWebhooks'
 import bcrypt from "bcrypt";
 import uuidAPIKey from "uuid-apikey";
 
-dbConnect()
+
 
 export default async (req,res) => {
     const { method } = req;
+    await dbConnect()
     switch (method){
         case 'POST':
             console.log(req.body)
@@ -27,6 +29,11 @@ export default async (req,res) => {
                     id:req.body.id,
                     token:token,
                     uuid:uuid
+                })
+                await DiscordWebhooks.create({
+                    id:req.body.id,
+                    isuse:false,
+                    webhookurl:''
                 })
                 const account = await Useraccounts.create({
                     "id":req.body.id,

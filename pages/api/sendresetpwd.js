@@ -1,9 +1,10 @@
 import SendMail from "../../lib/sendmail";
 import dbConnect from "../../utils/dbConnect";
-import pwdresettokens from "../../model/pwdresettokens";
-dbConnect();
+import PwdResetTokens from "../../model/PwdResetTokens";
+
 export default async (req, res) => {
     const {method} = req;
+    await dbConnect();
     switch (method) {
         case "POST":
             try {

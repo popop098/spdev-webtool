@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const UrlApiAccountSchema = new mongoose.Schema(
+const PwdResetTokensSchema = new mongoose.Schema(
     {
-        id: {
+        email: {
             type: String,
-            required: 'Please supply a id',
+            required: 'Please supply a email address',
             trim: true
         },
         uuid: {
@@ -32,4 +32,4 @@ const UrlApiAccountSchema = new mongoose.Schema(
 //     return this.findOne({ username });
 // };
 
-export default mongoose.models.UrlApiAccounts || mongoose.model('UrlApiAccounts', UrlApiAccountSchema);
+export default mongoose.models.PwdResetTokens || mongoose.model('PwdResetTokens', PwdResetTokensSchema)

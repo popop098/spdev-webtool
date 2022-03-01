@@ -7,7 +7,7 @@ import {faEye,faEyeSlash,faCopy,faCheck,faExclamationCircle} from "@fortawesome/
 import {useEffect} from "react";
 import fetch from "isomorphic-unfetch";
 export default function LogBar(){
-    // const { data, error, mutate } = useSWR("/api/me", fetcher);
+    const { data, error, mutate } = useSWR("/api/me/log", fetcher,{ refreshInterval: 1000 });
     // const [copied, setCopied] = useState(false);
     // const [refresh, setRefresh] = useState(false);
     // const [publickey, setPublickey] = useState("");
@@ -119,62 +119,41 @@ export default function LogBar(){
                         <table className="table w-full">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Job</th>
-                                <th>Favorite Color</th>
+                                <th>상태</th>
+                                <th>설명</th>
+                                <th>일자</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <div className="badge badge-error gap-1">
-                                        <FontAwesomeIcon icon={faExclamationCircle}/>error
-                                    </div>
-                                    Cy Ganderton
-                                </td>
-                                <td>Quality Control Specialist</td>
-                                <td>Blue</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="badge badge-success gap-1">
-                                        <FontAwesomeIcon icon={faCheck}/>success
-                                    </div>
-                                    Cy Ganderton
-                                </td>
-                                <td>Desktop Support Technician</td>
-                                <td>Purple</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="badge badge-success gap-1">
-                                        <FontAwesomeIcon icon={faCheck}/>success
-                                    </div>
-                                    Cy Ganderton
-                                </td>
-                                <td>Tax Accountant</td>
-                                <td>Red</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="badge badge-error gap-1">
-                                        <FontAwesomeIcon icon={faExclamationCircle}/>error
-                                    </div>
-                                    Cy Ganderton
-                                </td>
-                                <td>Tax Accountant</td>
-                                <td>Red</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className="badge badge-success gap-1">
-                                        <FontAwesomeIcon icon={faCheck}/>success
-                                    </div>
-                                    Cy Ganderton
-                                </td>
-                                <td>Tax Accountant</td>
-                                <td>Red</td>
-                            </tr>
+                            {
+                                data?data.data.slice(-5).reverse().map((item, index)=>{
+                                    if(item.statue==="success"){
+                                        return(
+                                            <tr key={index}>
+                                                <td>
+                                                    <div className="badge badge-success gap-1">
+                                                        <FontAwesomeIcon icon={faCheck}/>success
+                                                    </div>
+                                                </td>
+                                                <td>{item.description}</td>
+                                                <td>{item.created_at}</td>
+                                            </tr>
+                                        )
+                                    }else {
+                                        return(
+                                            <tr>
+                                                <td>
+                                                    <div className="badge badge-error gap-1">
+                                                        <FontAwesomeIcon icon={faExclamationCircle}/>error
+                                                    </div>
+                                                </td>
+                                                <td>{item.description}</td>
+                                                <td>{item.created_at}</td>
+                                            </tr>
+                                        )
+                                    }
+                                }):'불러오는중입니다.'
+                            }
                             </tbody>
                         </table>
                     </div>

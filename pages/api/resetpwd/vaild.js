@@ -1,6 +1,6 @@
 // https://www.youtube.com/watch?v=ahAilJEe-_A&list=PL_kAgwZgMfWx0ToY-XKCcAm9JH5UlTA-W&index=2&ab_channel=JasonRivera
 import dbConnect from "../../../utils/dbConnect";
-import Pwdresettokens from '../../../model/pwdresettokens'
+import Pwdresettokens from '../../../model/PwdResetTokens'
 
 dbConnect()
 export default async (req,res) => {

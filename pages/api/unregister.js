@@ -1,20 +1,23 @@
-import pwdresettokens from '../../model/pwdresettokens';
+import PwdResetTokens from '../../model/PwdResetTokens';
 import UrlApiAccounts from '../../model/UrlApiAccounts';
-import Useraccounts from '../../model/Useraccounts';
+import Useraccounts from '../../model/UserAccounts';
+import DiscordWebhooks from '../../model/DiscordWebhooks'
 import dbConnect from "../../utils/dbConnect";
 import {getSession} from "next-auth/react";
 
-dbConnect()
+
 export default async (req,res)=>{
     const { method } = req;
+    await dbConnect()
     switch (method){
         case 'POST':
             try{
                 const session = await getSession({ req });
                 if(session){
-                    await pwdresettokens.deleteOne({id:session.user.id});
+                    await PwdResetTokens.deleteOne({id:session.user.id});
                     await Useraccounts.deleteOne({id:session.user.id});
                     await UrlApiAccounts.deleteOne({id:session.user.id});
+                    await DiscordWebhooks.deleteOne({id:session.user.id});
                     return res.status(200).json({message:"Account deleted"});
                 } else {
                     return res.status(401).json({message:"Unauthorized"});

@@ -1,5 +1,5 @@
 import SendMail from "../../lib/sendmail";
-import Useraccounts from "../../model/useraccounts"
+import UserAccounts from "../../model/UserAccounts"
 import dbConnect from "../../utils/dbConnect";
 dbConnect()
 export default async (req, res) => {
@@ -8,7 +8,7 @@ export default async (req, res) => {
         case "POST":
             try {
                 console.log(req.body);
-                const ID = await Useraccounts.findOne({
+                const ID = await UserAccounts.findOne({
                     "email": String(req.body.email)
                 });
                 const html = `<!doctype html>

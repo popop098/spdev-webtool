@@ -1,25 +1,23 @@
 const mongoose = require('mongoose')
 
-const pwdresettokenSchema = new mongoose.Schema(
+const DiscordWebhookSchema = new mongoose.Schema(
     {
-        email: {
+        id: {
             type: String,
-            required: 'Please supply a email address',
+            required: 'Please supply a id',
             trim: true
         },
-        uuid: {
-            type: String,
+        isuse: {
+            type: Boolean,
             required: 'Please supply a uuid',
             trim: true
         },
-        token: {
+        webhookurl: {
             type: String,
-            required: 'Please supply a token',
             trim: true
         }
     }
 )
-
 // AccountSchema.methods.setPassword = async function (password) {
 //     this.hashedPassword = await bcrypt.hash(password, 10);
 // };
@@ -31,5 +29,7 @@ const pwdresettokenSchema = new mongoose.Schema(
 // AccountSchema.statics.findByUsername = function (username) {
 //     return this.findOne({ username });
 // };
-
-module.exports = mongoose.models.pwdresettokens || mongoose.model('pwdresettokens', pwdresettokenSchema);
+DiscordWebhookSchema.statics.findByUserId = function (id) {
+    return this.findOne({ id });
+};
+export default mongoose.models.DiscordWebhooks || mongoose.model('DiscordWebhooks', DiscordWebhookSchema);
